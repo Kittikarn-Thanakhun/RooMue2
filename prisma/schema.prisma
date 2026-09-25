@@ -10,9 +10,11 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
+
 
 // ---- Auth (NextAuth-compatible) -------------------------------------------
 
@@ -28,10 +30,10 @@ model User {
   image         String?
 
   // Registration profile (Page 2, Step 2)
-  firstName          String?
-  lastName           String?
-  nationalId         String? // 13-digit Thai national ID (store encrypted in prod)
-  disabilityCardNo   String? // optional
+  firstName        String?
+  lastName         String?
+  nationalId       String? // 13-digit Thai national ID (store encrypted in prod)
+  disabilityCardNo String? // optional
 
   accounts            Account[]
   sessions            Session[]
