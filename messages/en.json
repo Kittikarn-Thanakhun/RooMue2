@@ -1,0 +1,386 @@
+{
+  "common": {
+    "appName": "Roo_mue",
+    "languageToggleLabel": "Change language",
+    "switchToThai": "ไทย",
+    "switchToEnglish": "English",
+    "prevSlide": "Previous slide",
+    "nextSlide": "Next slide",
+    "switchToDark": "Switch to dark mode",
+    "switchToLight": "Switch to light mode"
+  },
+  "nav": {
+    "home": "Home",
+    "call": "Family call",
+    "history": "History",
+    "signs": "Signs",
+    "profile": "Profile",
+    "login": "Log in",
+    "register": "Sign up"
+  },
+  "a11y": {
+    "title": "Accessibility",
+    "openLabel": "Open accessibility menu",
+    "voiceGuidance": "Voice guidance",
+    "voiceCommands": "Voice commands",
+    "largeText": "Large text",
+    "highContrast": "High contrast",
+    "on": "on",
+    "off": "off",
+    "voiceCommandsHint": "Say: home, call, history, profile, repeat, stop",
+    "listening": "Listening for voice commands",
+    "notSupported": "Voice commands aren't supported on this device"
+  },
+  "auth": {
+    "tabs": {
+      "register": "Sign up",
+      "login": "Log in"
+    },
+    "login": {
+      "title": "Log in",
+      "subtitle": "Welcome back",
+      "phone": "Phone number",
+      "password": "Password",
+      "submit": "Log in",
+      "or": "or",
+      "google": "Continue with Google",
+      "forgot": "Forgot password?",
+      "noAccount": "No account yet? Sign up",
+      "invalid": "Invalid phone number or password"
+    },
+    "forgot": {
+      "title": "Forgot password",
+      "step1Heading": "Enter your phone number to receive a verification code",
+      "phone": "Phone number",
+      "send": "Send code",
+      "step2Heading": "Set a new password",
+      "sentTo": "We sent a 6-digit code to",
+      "otpLabel": "Verification code",
+      "newPassword": "New password",
+      "passwordHint": "At least 8 characters",
+      "submit": "Change password",
+      "back": "Back",
+      "backToLogin": "Back to log in",
+      "success": "Your password has been changed",
+      "devCode": "Test code (dev mode):",
+      "resend": "Resend code",
+      "resendIn": "Resend in {seconds}s",
+      "errors": {
+        "user_not_found": "No account found for this phone number",
+        "invalid_phone": "Invalid phone number",
+        "weak_password": "Password must be at least 8 characters",
+        "invalid_otp": "Please enter the 6-digit code",
+        "otp_failed": "Code is incorrect or expired",
+        "generic": "Something went wrong. Please try again."
+      }
+    },
+    "register": {
+      "title": "Sign up",
+      "haveAccount": "Already have an account? Log in",
+      "step1": {
+        "heading": "Choose a sign-up method",
+        "google": "Sign up with Google",
+        "phoneLabel": "Phone number",
+        "next": "Next"
+      },
+      "step2": {
+        "heading": "Your details",
+        "firstName": "First name",
+        "lastName": "Last name",
+        "nationalId": "National ID",
+        "disabilityCard": "Disability card number",
+        "disabilityCardHint": "(if applicable)",
+        "password": "Password",
+        "passwordHint": "At least 8 characters",
+        "next": "Next",
+        "back": "Back"
+      },
+      "step3": {
+        "heading": "Verify your phone number",
+        "sentTo": "We sent a 6-digit code to",
+        "resend": "Resend code",
+        "resendIn": "Resend in {seconds}s",
+        "submit": "Verify and create account",
+        "back": "Back",
+        "devCode": "Test code (dev mode):"
+      },
+      "errors": {
+        "invalid_phone": "Invalid phone number",
+        "phone_taken": "This phone number is already registered",
+        "weak_password": "Password must be at least 8 characters",
+        "missing_name": "Please enter your first and last name",
+        "invalid_national_id": "National ID must be 13 digits",
+        "invalid_otp": "Please enter the 6-digit code",
+        "otp_failed": "Code is incorrect or expired",
+        "too_many_requests": "Too many requests. Please wait 15 minutes and try again.",
+        "db_error": "Database not initialized. Please run npx prisma db push in terminal.",
+        "generic": "Something went wrong. Please try again."
+      }
+    }
+  },
+  "app": {
+    "greeting": "Welcome",
+    "signOut": "Sign out",
+    "skipToContent": "Skip to main content",
+    "back": "Back",
+    "context": {
+      "title": "Select communication context",
+      "subtitle": "Pick the situation type so translation is more accurate",
+      "emergencyTitle": "Emergency",
+      "emergencyDesc": "Fast mode for crises",
+      "everydayTitle": "Everyday situation",
+      "everydayDesc": "Day-to-day communication",
+      "alphabetTitle": "Fingerspelling (A–Z)",
+      "alphabetDesc": "Spell English letters with ASL hand signs"
+    },
+    "dashboard": {
+      "searchPlaceholder": "Search for who to call",
+      "historyTitle": "History",
+      "historyEmpty": "No translation history yet",
+      "seeAll": "See all",
+      "categoriesTitle": "Categories"
+    },
+    "signs": {
+      "title": "Sign language"
+    },
+    "emergency": {
+      "submenuTitle": "Choose how to communicate",
+      "preset": "Use pre-set phrases",
+      "presetDesc": "Common phrases for emergencies",
+      "camera": "Translate via camera",
+      "cameraDesc": "Capture signs with the camera and translate with AI"
+    },
+    "preset": {
+      "title": "Pre-set phrases",
+      "phrases": {
+        "help": "I need help",
+        "police": "Call the police please",
+        "lost": "I am lost",
+        "pain": "I am in pain",
+        "ambulance": "Call an ambulance"
+      }
+    },
+    "everyday": {
+      "title": "Choose a category",
+      "menuTitle": "Choose what to do",
+      "basics": "20 basic sign-language words",
+      "basicsDesc": "Everyday gestures — learn and read aloud",
+      "cameraOption": "Translate via camera",
+      "cameraOptionDesc": "Pick a category and capture signs with the camera",
+      "categories": {
+        "hospital": "Hospital",
+        "grocery": "Shop",
+        "restaurant": "Restaurant",
+        "transport": "Public transport",
+        "school": "School",
+        "police": "Police station",
+        "home": "Home",
+        "other": "Other"
+      }
+    },
+    "camera": {
+      "permissionTitle": "Allow camera access?",
+      "permissionBody": "We use the camera only to capture your hand gestures. Video is never recorded or sent off your device.",
+      "allow": "Allow",
+      "cancel": "Cancel",
+      "starting": "Starting camera…",
+      "denied": "Could not access the camera. Please allow it in your browser and try again.",
+      "insecure": "The camera only works over https or on localhost.",
+      "retry": "Try again",
+      "modelLoading": "Loading hand-tracking model…",
+      "modelError": "Could not load the tracking model. You can still translate.",
+      "handsDetected": "{count} hand(s) detected",
+      "noHands": "No hands detected yet",
+      "translate": "Translate signs",
+      "translating": "Translating…",
+      "stop": "Stop camera",
+      "faceAnalytics": "Face analytics",
+      "smile": "Smile",
+      "eyes": "Eyes open",
+      "mouth": "Mouth movement",
+      "live": "Analyzing in real time",
+      "raiseHand": "Raise your hand in frame to begin",
+      "recognized": "Recognized",
+      "alternative": "Alternative",
+      "sentence": "Sentence",
+      "clear": "Clear",
+      "save": "Save sentence",
+      "saved": "Saved to history",
+      "play": "Read aloud",
+      "editWord": "Edit word",
+      "removeWord": "Remove word",
+      "editHint": "Tap a word to correct it, or the cross to remove it",
+      "suggested": "Suggested sentence",
+      "words": "Recognized words"
+    },
+    "result": {
+      "title": "Pick the correct meaning",
+      "confidence": "Confidence",
+      "edit": "Edit word",
+      "editPlaceholder": "Type the correct meaning",
+      "confirm": "Confirm",
+      "play": "Read aloud",
+      "saved": "Saved to history",
+      "translateAgain": "Translate again"
+    },
+    "basicSigns": {
+      "title": "20 basic Thai signs",
+      "subtitle": "For everyday use",
+      "meaning": "Meaning",
+      "howto": "How to sign",
+      "play": "Read aloud"
+    },
+    "history": {
+      "title": "Translation history",
+      "searchPlaceholder": "Search sentences...",
+      "empty": "No translation history yet",
+      "play": "Read aloud",
+      "source": {
+        "camera": "From camera",
+        "preset": "Pre-set phrase"
+      }
+    },
+    "profile": {
+      "title": "Profile",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone number",
+      "nationalId": "National ID",
+      "disabilityCard": "Disability card number",
+      "none": "-",
+      "language": "Language"
+    },
+    "call": {
+      "title": "Family call",
+      "subtitle": "Connect a sign-language user with a hearing family member",
+      "chooseRole": "Choose your role",
+      "signer": "I use sign language",
+      "signerHint": "Your camera turns your signs into text and voice",
+      "speaker": "I speak",
+      "speakerHint": "Your speech becomes text for the other person to read",
+      "createRoom": "Create a room",
+      "joinRoom": "Join a room",
+      "roomCode": "Room code",
+      "roomCodePlaceholder": "Enter room code",
+      "shareHint": "Share this code with your family member to join",
+      "copy": "Copy code",
+      "copied": "Copied",
+      "start": "Start call",
+      "waiting": "Waiting for the other person to join…",
+      "connecting": "Connecting…",
+      "connected": "Connected",
+      "failed": "Connection failed. Please try again.",
+      "ended": "Call ended",
+      "mediaDenied": "Could not access the camera or microphone",
+      "insecure": "Calls only work over https or on localhost.",
+      "sttUnsupported": "This browser does not support speech-to-text. Chrome is recommended.",
+      "yourSigns": "What you sent",
+      "theirSpeech": "Incoming speech",
+      "theirSigns": "Incoming sign language",
+      "listening": "Listening…",
+      "speakNow": "Go ahead and speak — it will be transcribed automatically",
+      "raiseHand": "Raise your hand in frame to begin",
+      "muteMic": "Mute mic",
+      "unmuteMic": "Unmute mic",
+      "endCall": "End call",
+      "play": "Read aloud",
+      "back": "Back",
+      "sendMessage": "Send message"
+    },
+    "contacts": {
+      "title": "Family call",
+      "add": "Add",
+      "empty": "No contacts yet — add one by phone number",
+      "addTitle": "Add a contact",
+      "search": "Search",
+      "invalidPhone": "Enter a valid phone number",
+      "notFound": "No Roo_mue account found for this number",
+      "isSelf": "That's your own number",
+      "rateLimited": "Too many lookups — please wait a bit and try again",
+      "added": "Added",
+      "addAction": "Add",
+      "close": "Close"
+    },
+    "chat": {
+      "back": "Back",
+      "empty": "No messages yet",
+      "placeholder": "Send a message…",
+      "send": "Send",
+      "incomingCall": "{name} is calling — tap to join"
+    },
+    "alphabet": {
+      "permissionTitle": "Allow camera access?",
+      "permissionBody": "This mode sends captured frames to this app's own server for recognition (not to a third party). Nothing is stored.",
+      "allow": "Allow",
+      "cancel": "Cancel",
+      "starting": "Starting camera…",
+      "denied": "Could not access the camera. Please allow it in your browser and try again.",
+      "insecure": "The camera only works over https or on localhost.",
+      "retry": "Try again",
+      "modelLoading": "Warming up the recognition model…",
+      "modelError": "Could not reach the recognition model. Check your connection and try again.",
+      "frameHint": "Keep your hand inside the box",
+      "live": "Recognizing letters in real time",
+      "recognized": "Letter",
+      "raiseHand": "Show a hand sign in the box to begin",
+      "spelled": "Spelled word",
+      "empty": "Letters you sign will appear here",
+      "space": "Space",
+      "backspace": "Delete",
+      "play": "Read aloud",
+      "save": "Save word",
+      "saved": "Saved to history",
+      "clear": "Clear",
+      "stop": "Stop camera"
+    }
+  },
+  "landing": {
+    "welcome": {
+      "greeting": "Welcome to",
+      "tagline": "An app for people with hearing disabilities",
+      "cta": "Sign up",
+      "haveAccount": "I already have an account"
+    },
+    "tagline": "Communicate faster, in the moment that matters",
+    "headlineLine1": "Translate sign language",
+    "headlineLine2": "into Thai instantly",
+    "subtext": "Designed for the deaf and hard-of-hearing community. Use your camera to capture sign language; AI translates it and offers 2 candidate meanings, with read-aloud audio. Built for emergencies, hospitals, filing reports, and everyday life.",
+    "ctaPrimary": "Get started free",
+    "ctaSecondary": "I already have an account",
+    "features": {
+      "capture": {
+        "title": "Capture gestures",
+        "subtitle": "Via your device camera"
+      },
+      "ai": {
+        "title": "Instant AI translation",
+        "subtitle": "90%+ accuracy"
+      },
+      "meanings": {
+        "title": "2 meanings",
+        "subtitle": "Pick the correct one"
+      },
+      "tts": {
+        "title": "Read aloud",
+        "subtitle": "Thai text-to-speech"
+      },
+      "emergency": {
+        "title": "Emergency",
+        "subtitle": "Fast mode for crises"
+      },
+      "history": {
+        "title": "Saved history",
+        "subtitle": "Search past sentences"
+      }
+    },
+    "sponsors": {
+      "heading": "PROJECT SPONSORS",
+      "vip": "VIP Sponsors",
+      "platinum": "Platinum",
+      "gold": "Gold",
+      "silver": "Silver",
+      "organizedBy": "Organized by",
+      "partners": "Partners & Supporters"
+    }
+  }
+}

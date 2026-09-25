@@ -1,0 +1,171 @@
+// Roo_mue data model.
+//
+// LOCAL DEV: SQLite (zero setup, runs immediately).
+// PRODUCTION: switch `provider` to "postgresql" and point DATABASE_URL at your
+// Postgres/Supabase instance (see docs/DEPLOY.md). The models are written to be
+// portable; enum-like fields use String so the same schema works on SQLite.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Auth (NextAuth-compatible) -------------------------------------------
+
+model User {
+  id            String    @id @default(cuid())
+  // Phone is the primary login identifier (10-digit local Thai number).
+  phone         String?   @unique
+  phoneVerified DateTime?
+  // Email is optional now — kept for Google OAuth / NextAuth adapter compatibility.
+  email         String?   @unique
+  emailVerified DateTime?
+  passwordHash  String? // null when the account is Google-OAuth only
+  image         String?
+
+  // Registration profile (Page 2, Step 2)
+  firstName          String?
+  lastName           String?
+  nationalId         String? // 13-digit Thai national ID (store encrypted in prod)
+  disabilityCardNo   String? // optional
+
+  accounts            Account[]
+  sessions            Session[]
+  translationSessions TranslationSession[]
+
+  contactsOwned  Contact[]      @relation("ContactOwner")
+  contactedBy    Contact[]      @relation("ContactTarget")
+  conversationsA Conversation[] @relation("ConversationA")
+  conversationsB Conversation[] @relation("ConversationB")
+  chatMessages   ChatMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ---- App data --------------------------------------------------------------
+
+// One translation session = one sentence produced from sign language input.
+model TranslationSession {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // "emergency" | "everyday"
+  mode String
+
+  // Free-form context tag, e.g. "hospital", "police", "everyday".
+  contextTag String?
+
+  // Final chosen sentence (after the user picks one of the candidates).
+  sentence String
+
+  // The candidate meanings the engine proposed, stored as JSON string.
+  // Shape: [{ text: string, confidence: number }]
+  candidatesJson String?
+
+  // "camera" | "preset"
+  source String @default("camera")
+
+  createdAt DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+// ---- Family Call: contacts + chat ------------------------------------------
+
+// Directed address-book entry — saving someone doesn't require them to save
+// you back, and does NOT itself gate messaging/calling (see Conversation).
+model Contact {
+  id String @id @default(cuid())
+
+  ownerId String
+  owner   User   @relation("ContactOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  contactUserId String
+  contactUser   User   @relation("ContactTarget", fields: [contactUserId], references: [id], onDelete: Cascade)
+
+  // Optional display override, e.g. "Dad" instead of the contact's real name.
+  label String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([ownerId, contactUserId])
+  @@index([contactUserId])
+}
+
+// One 1:1 thread between two users. Always created via getOrCreateConversation,
+// which sorts the pair (userAId < userBId) before upsert — this is what makes
+// the unique constraint dedupe a pair regardless of who initiates.
+model Conversation {
+  id String @id @default(cuid())
+
+  userAId String
+  userA   User   @relation("ConversationA", fields: [userAId], references: [id], onDelete: Cascade)
+  userBId String
+  userB   User   @relation("ConversationB", fields: [userBId], references: [id], onDelete: Cascade)
+
+  messages ChatMessage[]
+
+  createdAt DateTime @default(now())
+  // Bumped on every new message; doubles as the "last activity" timestamp
+  // for the contacts list — no denormalized counter needed.
+  updatedAt DateTime @updatedAt
+
+  @@unique([userAId, userBId])
+  @@index([userBId])
+}
+
+model ChatMessage {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  body String
+
+  createdAt DateTime  @default(now())
+  readAt    DateTime?
+
+  @@index([conversationId, createdAt])
+}

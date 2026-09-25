@@ -1,0 +1,6 @@
+{
+  "seqLen": 30,
+  "featureDim": 258,
+  "numClasses": 29,
+  "source": "actions3.h5"
+}

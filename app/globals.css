@@ -1,0 +1,218 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    /* Brand blue ~ Tailwind blue-600 */
+    --primary: 221 83% 53%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 38%; /* AA contrast on white */
+
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 0 72% 45%; /* emergency red, AA on white */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 214 32% 88%;
+    --input: 214 32% 84%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.75rem;
+
+    /* Deep-blue gradient used on full-bleed screens (welcome, auth, calls) */
+    --brand-gradient-from: 226 71% 24%;
+    --brand-gradient-to: 221 83% 53%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+
+    --primary: 217 91% 60%;
+    --primary-foreground: 222 47% 8%;
+
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 72%;
+
+    --accent: 217 33% 18%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 72% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 217 33% 22%;
+    --input: 217 33% 24%;
+    --ring: 217 91% 60%;
+
+    --brand-gradient-from: 224 64% 14%;
+    --brand-gradient-to: 221 70% 38%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    /* Soft, theme-aware gradient wash. Built from the brand tokens so it adapts
+       to light/dark automatically; kept low-opacity so it never tints the
+       sponsor logos or harms text contrast. Fixed so it stays put while
+       scrolling long pages. */
+    background-image:
+      radial-gradient(85% 60% at 100% 0%, hsl(var(--primary) / 0.12), transparent 62%),
+      radial-gradient(80% 55% at 0% 12%, hsl(var(--primary) / 0.08), transparent 60%),
+      radial-gradient(120% 80% at 50% 115%, hsl(var(--primary) / 0.08), transparent 62%);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    font-feature-settings: "cv11", "ss01";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* WCAG: always-visible, high-contrast focus ring for keyboard users */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+
+  /* ---- Accessibility modes (toggled on <html> by the A11y provider) ------- */
+
+  /* Large text: scale the root font size so every rem-based size grows. */
+  .a11y-large-text {
+    font-size: 118.75%; /* ~19px base */
+  }
+
+  /* High contrast: override the theme tokens with stronger values and give the
+     focus ring a thicker, fully-opaque outline. Higher specificity than the
+     :root / .dark token blocks above so these win. */
+  .a11y-high-contrast {
+    --foreground: 0 0% 0%;
+    --background: 0 0% 100%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --muted-foreground: 0 0% 15%;
+    --secondary-foreground: 0 0% 0%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --primary: 221 90% 38%;
+    --ring: 221 90% 38%;
+    --destructive: 0 85% 38%;
+  }
+  .a11y-high-contrast.dark {
+    --foreground: 0 0% 100%;
+    --background: 0 0% 0%;
+    --card: 0 0% 5%;
+    --card-foreground: 0 0% 100%;
+    --muted-foreground: 0 0% 88%;
+    --secondary-foreground: 0 0% 100%;
+    --border: 0 0% 80%;
+    --input: 0 0% 80%;
+    --primary: 217 95% 72%;
+    --ring: 217 95% 72%;
+    --destructive: 0 90% 70%;
+  }
+  .a11y-high-contrast :focus-visible {
+    outline: 3px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+  /* Drop the decorative background wash so text contrast is never reduced. */
+  .a11y-high-contrast body {
+    background-image: none;
+  }
+  /* Same guarantee for the full-bleed brand-gradient screens (welcome, auth,
+     calls): high contrast always wins over decorative color. */
+  .a11y-high-contrast .bg-brand-gradient {
+    background: hsl(var(--background));
+  }
+}
+
+@layer utilities {
+  /* Full-bleed deep-blue screen background (welcome, auth, family-call).
+     Diagonal wash from the brand tokens so it adapts to light/dark. */
+  .bg-brand-gradient {
+    background: linear-gradient(
+      155deg,
+      hsl(var(--brand-gradient-from)),
+      hsl(var(--brand-gradient-to))
+    );
+  }
+
+  /* Light-mode logo cleanup: drop white box backgrounds */
+  .logo-multiply {
+    mix-blend-mode: multiply;
+  }
+  .dark .logo-multiply {
+    mix-blend-mode: normal;
+  }
+
+  /* Pause marquee on hover / focus-within for accessibility */
+  .marquee-track:hover,
+  .marquee-track:focus-within {
+    animation-play-state: paused;
+  }
+
+  /* Slow, gentle drift for the decorative sign-language hands.
+     Duration/delay are set per-hand inline for an organic, staggered motion. */
+  .sign-hand {
+    animation-name: sign-drift;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    will-change: translate;
+  }
+
+  /* Livelier bounce for the dashboard's decorative hand icons — a springy
+     "back" easing (slight overshoot) instead of the landing page's slow
+     linear drift, per-hand duration/delay set inline for organic staggering. */
+  .sign-hand-bounce {
+    animation-name: hand-bounce;
+    animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation-iteration-count: infinite;
+    will-change: translate;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track,
+    .sign-hand,
+    .sign-hand-bounce {
+      animation: none !important;
+    }
+  }
+}
+
+@keyframes sign-drift {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -20px;
+  }
+}
+
+@keyframes hand-bounce {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -28px;
+  }
+}

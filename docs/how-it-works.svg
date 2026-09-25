@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="920" height="1320" viewBox="0 0 920 1320" font-family="Segoe UI, Arial, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 z" fill="#475569"/>
+    </marker>
+    <style>
+      .lbl   { fill:#0f172a; font-size:13px; }
+      .sub   { fill:#475569; font-size:11px; }
+      .edge  { fill:#475569; font-size:11px; }
+      .proc  { fill:#eff6ff; stroke:#2563eb; stroke-width:1.5; }
+      .io    { fill:#ecfdf5; stroke:#059669; stroke-width:1.5; }
+      .dec   { fill:#fef9c3; stroke:#ca8a04; stroke-width:1.5; }
+      .term  { fill:#f1f5f9; stroke:#64748b; stroke-width:1.5; }
+      .out   { fill:#faf5ff; stroke:#9333ea; stroke-width:1.5; }
+      line, path.flow { stroke:#475569; stroke-width:1.5; fill:none; }
+    </style>
+  </defs>
+
+  <rect width="920" height="1320" fill="#ffffff"/>
+  <text x="32" y="40" font-size="20" font-weight="700" fill="#0f172a">Roo_mue — Sign Translation Process</text>
+  <text x="32" y="62" class="sub">Webcam → MediaPipe Holistic → TFJS model → word → sentence → speech / save</text>
+
+  <!-- 1 Start -->
+  <rect class="term" x="350" y="90" rx="22" ry="22" width="220" height="44"/>
+  <text class="lbl" x="460" y="117" text-anchor="middle">User opens Translate</text>
+
+  <!-- 2 Decision: allow camera -->
+  <polygon class="dec" points="460,158 600,210 460,262 320,210"/>
+  <text class="lbl" x="460" y="208" text-anchor="middle">Allow camera?</text>
+  <text class="sub" x="460" y="226" text-anchor="middle">consent gate</text>
+
+  <!-- Close (cancel) -->
+  <rect class="term" x="680" y="188" rx="22" ry="22" width="160" height="44"/>
+  <text class="lbl" x="760" y="215" text-anchor="middle">Close</text>
+
+  <!-- 3 getUserMedia -->
+  <rect class="proc" x="340" y="296" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="320" text-anchor="middle">getUserMedia()</text>
+  <text class="sub" x="460" y="338" text-anchor="middle">640×480, front camera</text>
+
+  <!-- denied -->
+  <rect class="dec" x="650" y="300" rx="10" width="0" height="0"/>
+  <polygon class="dec" points="760,290 850,322 760,354 670,322"/>
+  <text class="lbl" x="760" y="320" text-anchor="middle">denied /</text>
+  <text class="lbl" x="760" y="336" text-anchor="middle">insecure</text>
+
+  <!-- 4 Live / rAF loop -->
+  <rect class="proc" x="340" y="392" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="416" text-anchor="middle">rAF loop: pump()</text>
+  <text class="sub" x="460" y="434" text-anchor="middle">throttled ~24 fps</text>
+
+  <!-- 5 Holistic -->
+  <rect class="proc" x="340" y="488" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="512" text-anchor="middle">MediaPipe Holistic</text>
+  <text class="sub" x="460" y="530" text-anchor="middle">hand / face / pose landmarks (CDN)</text>
+
+  <!-- 6 keypoints -->
+  <rect class="proc" x="340" y="584" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="608" text-anchor="middle">extractKeypoints()</text>
+  <text class="sub" x="460" y="626" text-anchor="middle">push to rolling seq buffer (SEQ_LEN)</text>
+
+  <!-- side: overlay -->
+  <rect class="out" x="650" y="486" rx="10" width="200" height="50"/>
+  <text class="lbl" x="750" y="508" text-anchor="middle">Draw hand skeleton</text>
+  <text class="sub" x="750" y="524" text-anchor="middle">canvas overlay</text>
+
+  <!-- side: face -->
+  <rect class="out" x="650" y="586" rx="10" width="200" height="50"/>
+  <text class="lbl" x="750" y="608" text-anchor="middle">faceSignals (every 5th)</text>
+  <text class="sub" x="750" y="624" text-anchor="middle">FaceAnalyticsBar</text>
+
+  <!-- 7 infer gate -->
+  <polygon class="dec" points="460,672 640,724 460,776 280,724"/>
+  <text class="lbl" x="460" y="716" text-anchor="middle">hands&gt;0 · seq full</text>
+  <text class="lbl" x="460" y="734" text-anchor="middle">≥90ms · not busy?</text>
+
+  <!-- 8 predict -->
+  <rect class="proc" x="340" y="806" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="830" text-anchor="middle">predictSequence()</text>
+  <text class="sub" x="460" y="848" text-anchor="middle">TFJS model → top-2 candidates</text>
+
+  <!-- side: onLive -->
+  <rect class="out" x="650" y="808" rx="10" width="200" height="50"/>
+  <text class="lbl" x="750" y="830" text-anchor="middle">onLive(top, second)</text>
+  <text class="sub" x="750" y="846" text-anchor="middle">live display</text>
+
+  <!-- 9 stability -->
+  <polygon class="dec" points="460,896 660,952 460,1008 260,952"/>
+  <text class="lbl" x="460" y="942" text-anchor="middle">same word ×4 ·</text>
+  <text class="lbl" x="460" y="960" text-anchor="middle">conf ≥0.6 · new?</text>
+
+  <!-- 10 commit / append -->
+  <rect class="proc" x="340" y="1040" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="1064" text-anchor="middle">onCommit → append word</text>
+  <text class="sub" x="460" y="1082" text-anchor="middle">keep last 12</text>
+
+  <!-- speak -->
+  <rect class="out" x="80" y="1042" rx="10" width="200" height="50"/>
+  <text class="lbl" x="180" y="1064" text-anchor="middle">say(word)</text>
+  <text class="sub" x="180" y="1080" text-anchor="middle">Web Speech API (TTS)</text>
+
+  <!-- compose -->
+  <rect class="proc" x="340" y="1132" rx="10" width="240" height="56"/>
+  <text class="lbl" x="460" y="1156" text-anchor="middle">composeSentences()</text>
+  <text class="sub" x="460" y="1174" text-anchor="middle">full-sentence suggestions</text>
+
+  <!-- user action / save -->
+  <rect class="out" x="650" y="1134" rx="10" width="200" height="54"/>
+  <text class="lbl" x="750" y="1156" text-anchor="middle">Save → saveSession()</text>
+  <text class="sub" x="750" y="1172" text-anchor="middle">server action → Prisma DB</text>
+
+  <!-- edges -->
+  <path class="flow" marker-end="url(#arrow)" d="M460,134 L460,156"/>
+  <path class="flow" marker-end="url(#arrow)" d="M600,210 L678,210"/>
+  <text class="edge" x="636" y="202">cancel</text>
+  <path class="flow" marker-end="url(#arrow)" d="M460,262 L460,294"/>
+  <text class="edge" x="470" y="282">allow</text>
+
+  <path class="flow" marker-end="url(#arrow)" d="M580,322 L668,322"/>
+  <text class="edge" x="600" y="314">fail</text>
+  <path class="flow" marker-end="url(#arrow)" d="M760,290 C760,250 460,250 460,200" stroke-dasharray="4 3"/>
+  <text class="edge" x="600" y="252">retry</text>
+
+  <path class="flow" marker-end="url(#arrow)" d="M460,352 L460,390"/>
+  <path class="flow" marker-end="url(#arrow)" d="M460,448 L460,486"/>
+  <path class="flow" marker-end="url(#arrow)" d="M460,544 L460,582"/>
+  <path class="flow" marker-end="url(#arrow)" d="M580,512 L648,512"/>
+  <path class="flow" marker-end="url(#arrow)" d="M580,612 L648,611"/>
+  <path class="flow" marker-end="url(#arrow)" d="M460,640 L460,670"/>
+
+  <path class="flow" marker-end="url(#arrow)" d="M460,776 L460,804"/>
+  <text class="edge" x="470" y="794">yes</text>
+  <path class="flow" marker-end="url(#arrow)" d="M280,724 C150,724 150,418 338,418" stroke-dasharray="4 3"/>
+  <text class="edge" x="150" y="560">no → next frame</text>
+
+  <path class="flow" marker-end="url(#arrow)" d="M580,834 L648,833"/>
+  <path class="flow" marker-end="url(#arrow)" d="M460,862 L460,894"/>
+
+  <path class="flow" marker-end="url(#arrow)" d="M460,1008 L460,1038"/>
+  <text class="edge" x="470" y="1028">yes</text>
+  <path class="flow" marker-end="url(#arrow)" d="M260,952 C170,952 170,420 338,419" stroke-dasharray="4 3"/>
+  <text class="edge" x="180" y="700">no</text>
+
+  <path class="flow" marker-end="url(#arrow)" d="M340,1068 L282,1067"/>
+  <path class="flow" marker-end="url(#arrow)" d="M460,1096 L460,1130"/>
+  <path class="flow" marker-end="url(#arrow)" d="M580,1160 L648,1160"/>
+
+  <!-- legend -->
+  <rect x="32" y="1230" width="856" height="60" rx="8" fill="#f8fafc" stroke="#e2e8f0"/>
+  <rect class="term" x="48" y="1248" width="22" height="16" rx="8"/><text class="sub" x="78" y="1261">start / end</text>
+  <rect class="proc" x="180" y="1248" width="22" height="16" rx="3"/><text class="sub" x="210" y="1261">process</text>
+  <polygon class="dec" points="320,1248 336,1256 320,1264 304,1256"/><text class="sub" x="346" y="1261">decision</text>
+  <rect class="out" x="450" y="1248" width="22" height="16" rx="3"/><text class="sub" x="480" y="1261">output / side-effect</text>
+  <text class="sub" x="650" y="1261">dashed = loop back to next frame</text>
+</svg>
